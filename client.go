@@ -93,13 +93,13 @@ func echo(w http.ResponseWriter, r *http.Request) {
 		// }()
 		// // io.Copy(os.Stdout, sess)
 		// io.Copy(wr, sess)
-
+		// /*
 		go func() {
 			for {
 				buf := make([]byte, 1024)
 				if n, err := io.ReadFull(sess, buf); err == nil {
 					log.Println("recv:", string(buf[:n]))
-					c.WriteMessage(2, buf[:n])
+					c.WriteMessage(websocket.TextMessage, buf[:n])
 				} else {
 					log.Fatal(err)
 				}
@@ -123,6 +123,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 			// 	break
 			// }
 		}
+		// */
 	} else {
 		log.Fatal(err)
 	}
