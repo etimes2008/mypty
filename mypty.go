@@ -63,7 +63,9 @@ func handleEcho(conn *kcp.UDPSession) {
 	// defer func() { _ = terminal.Restore(int(os.Stdin.Fd()), oldState) }() // Best effort.
 
 	// Copy stdin to the pty and the pty to stdout.
-	go func() { io.Copy(ptmx, conn) }()
+	go func() {
+		io.Copy(ptmx, conn)
+	}()
 	io.Copy(conn, ptmx)
 
 	// go func(conn *kcp.UDPSession, ptmx *os.File) {
@@ -85,11 +87,11 @@ func handleEcho(conn *kcp.UDPSession) {
 	// 		return
 	// 	}
 	// 	log.Println("client", string(buf[:n]), buf[:n])
-	// 	// n, err = conn.Write(buf[:n])
-	// 	// if err != nil {
-	// 	// 	log.Println(err)
-	// 	// 	return
-	// 	// }
-	// 	ptmx.Write(buf[:n])
+	// 	n, err = conn.Write(buf[:n])
+	// 	if err != nil {
+	// 		log.Println(err)
+	// 		return
+	// 	}
+	// 	// ptmx.Write(buf[:n])
 	// }
 }
