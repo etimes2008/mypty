@@ -4,7 +4,6 @@ import (
 	"crypto/sha1"
 	"flag"
 	"html/template"
-	"io"
 	"log"
 	"net/http"
 	"os"
@@ -97,7 +96,8 @@ func echo(w http.ResponseWriter, r *http.Request) {
 		go func() {
 			for {
 				buf := make([]byte, 1024)
-				if n, err := io.ReadFull(sess, buf); err == nil {
+				// if n, err := io.ReadFull(sess, buf); err == nil {
+				if n, err := sess.Read(buf); err == nil {
 					log.Println("recv:", string(buf[:n]))
 					c.WriteMessage(websocket.TextMessage, buf[:n])
 				} else {
